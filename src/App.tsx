@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { PaperProvider } from "react-native-paper";
 import AppNavigator from "./navigation/AppNavigator";
 import useFonts from "./hooks/useFonts";
-import { colors } from "./constants/colors";
-import { ThemeProvider } from "./ThemeContext";
+import { Provider as PaperProvider } from "react-native-paper";
+import { ThemeProvider, useTheme } from "./ThemeContext";
 
 // Keep the splash screen visible while we fetch resources
 
@@ -38,13 +37,20 @@ const App: React.FC = () => {
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container}>
         <ThemeProvider>
-          <PaperProvider>
+          <PaperProviderWrapper>
             <AppNavigator />
-          </PaperProvider>
+          </PaperProviderWrapper>
         </ThemeProvider>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
+};
+
+const PaperProviderWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { paperTheme } = useTheme();
+  return <PaperProvider theme={paperTheme}>{children}</PaperProvider>;
 };
 
 const styles = StyleSheet.create({

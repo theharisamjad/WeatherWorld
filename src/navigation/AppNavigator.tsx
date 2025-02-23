@@ -1,48 +1,17 @@
 import React from "react";
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Home } from "../screens";
+import { Appbar } from "react-native-paper";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "../ThemeContext";
-import {
-  lightTheme as appLightTheme,
-  darkTheme as appDarkTheme,
-} from "../constants/colors";
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
-  const { theme } = useTheme();
-
-  // Combine React Navigation's default themes with your custom themes
-  const navigationTheme =
-    theme === "light"
-      ? {
-          ...DefaultTheme,
-          colors: {
-            ...DefaultTheme.colors,
-            background: appLightTheme.background,
-            card: appLightTheme.card,
-            text: appLightTheme.text,
-            primary: appLightTheme.primary,
-          },
-        }
-      : {
-          ...DarkTheme,
-          colors: {
-            ...DarkTheme.colors,
-            background: appDarkTheme.background,
-            card: appDarkTheme.card,
-            text: appDarkTheme.text,
-            primary: appDarkTheme.primary,
-          },
-        };
-
+  const { paperTheme, theme, toggleTheme } = useTheme();
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -55,7 +24,20 @@ const AppNavigator = () => {
           component={Home}
           options={{
             headerTitle: "",
-            headerShown: false,
+            header: ({ navigation, ...props }) => (
+              <Appbar.Header style={{ backgroundColor: paperTheme.background }}>
+                <Appbar.Content title="Weather World" />
+                <>
+                  <Appbar.Action
+                    icon={theme === "dark" ? "weather-night" : "weather-sunny"} // Icon changes based on theme
+                    iconColor={paperTheme.text} // Icon color adapts to the theme
+                    onPress={() => {
+                      toggleTheme();
+                    }}
+                  />
+                </>
+              </Appbar.Header>
+            ),
           }}
         />
       </Stack.Navigator>
