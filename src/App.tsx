@@ -1,15 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AppNavigator from "./navigation/AppNavigator";
 import useFonts from "./hooks/useFonts";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ThemeProvider, useTheme } from "./ThemeContext";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 // Keep the splash screen visible while we fetch resources
 
 const App: React.FC = () => {
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
+  // const { theme, paperTheme } = useTheme();
   const fontsLoaded = useFonts();
 
   useEffect(() => {
@@ -35,13 +39,15 @@ const App: React.FC = () => {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaProvider>
         <ThemeProvider>
           <PaperProviderWrapper>
-            <AppNavigator />
+            <Provider store={store}>
+              <AppNavigator />
+            </Provider>
           </PaperProviderWrapper>
         </ThemeProvider>
-      </SafeAreaView>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 };

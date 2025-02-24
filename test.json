@@ -1,0 +1,55 @@
+{
+    "current": {
+        "cloud": 5,
+        "condition": {
+            "code": 1000,
+            "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+            "text": "Clear"
+        },
+        "dewpoint_c": -1.8,
+        "dewpoint_f": 28.8,
+        "feelslike_c": 11.6,
+        "feelslike_f": 52.8,
+        "gust_kph": 19.7,
+        "gust_mph": 12.2,
+        "heatindex_c": 12.4,
+        "heatindex_f": 54.3,
+        "humidity": 37,
+        "is_day": 0,
+        "last_updated": "2025-02-24 01:30",
+        "last_updated_epoch": 1740342600,
+        "precip_in": 0,
+        "precip_mm": 0,
+        "pressure_in": 30.1,
+        "pressure_mb": 1019,
+        "temp_c": 12.4,
+        "temp_f": 54.3,
+        "uv": 0,
+        "vis_km": 10,
+        "vis_miles": 6,
+        "wind_degree": 33,
+        "wind_dir": "NNE",
+        "wind_kph": 9.4,
+        "wind_mph": 5.8,
+        "windchill_c": 11.6,
+        "windchill_f": 52.8
+    },
+    "forecast": {
+        "forecastday": [
+            [Object
+            ],
+            [Object
+            ],
+            [Object
+            ]
+        ]
+    },
+    "location": {
+        "country": "Pakistan",
+        "lat": 33.7,
+        "localtime": "2025-02-24 01:40",
+        "localtime_epoch": 1740343257,
+        "lon": 73.1667,
+        "name": "Islamabad",
+        "region": "Islamabad",
+        "tz_id": "Asia/Karachi"
