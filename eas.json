@@ -1,0 +1,36 @@
+{
+    "cli": {
+        "version": ">= 14.7.1",
+        "appVersionSource": "remote"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "android": {
+                "buildType": "apk"
+            },
+            "ios": {
+                "simulator": true
+            },
+            "env": {
+                "API_KEY": "@WEATHER_API_KEY"
+            }
+        },
+        "production": {
+            "autoIncrement": true,
+            "android": {
+                "buildType": "app-bundle"
+            },
+            "ios": {
+                "simulator": true
+            },
+            "env": {
+                "API_KEY": "@WEATHER_API_KEY"
+            }
+        }
+    },
+    "submit": {
+        "production": {}
+    }
+}
