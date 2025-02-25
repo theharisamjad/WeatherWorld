@@ -17,8 +17,8 @@ import {
   Text,
 } from "react-native-paper";
 import { fonts } from "../../constants/fonts";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import dayjs from "dayjs";
 import { width } from "../../constants/sizes";
 import WeatherCard from "../../components/WeatherCard";
