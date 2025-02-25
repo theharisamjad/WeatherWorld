@@ -48,10 +48,8 @@ const WeatherStatItem: React.FC<WeatherStatItemType> = ({
 );
 
 const Home = () => {
-  const { theme, paperTheme } = useTheme();
-  const { data, status, error } = useSelector(
-    (state: RootState) => state.weather
-  );
+  const { paperTheme } = useTheme();
+  const { data, status } = useSelector((state: RootState) => state.weather);
   const [selectedTab, setSelectedTab] = useState<
     "today" | "tomorrow" | "forecast"
   >("today");
@@ -145,7 +143,7 @@ const Home = () => {
                   {location?.name}
                 </Text>
                 <Text style={styles.weatherTempStyle}>
-                  {currentData?.feelslike_c
+                  {currentData?.temp_c
                     ? `${Math.floor(currentData.temp_c)}°C`
                     : ""}
                 </Text>
