@@ -1,4 +1,11 @@
-import { Image, StyleSheet, View, SafeAreaView, FlatList } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import { useTheme } from "../../ThemeContext";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
@@ -116,142 +123,144 @@ const Home = () => {
   return (
     <SafeAreaView
       style={[
-        styles.safeArea,
+        styles.flexOne,
         { backgroundColor: paperTheme.colors.background },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: paperTheme.colors.background },
-        ]}
-      >
-        <Card style={styles.verticalMargin}>
-          <Card.Content>
-            <View style={styles.flexRow}>
-              <View style={styles.mainCardContainer}>
-                <Text style={styles.city} numberOfLines={1}>
-                  {location?.name}
-                </Text>
-                <Text style={styles.weatherTempStyle}>
-                  {currentData?.temp_c
-                    ? `${Math.floor(currentData.temp_c)}°C`
-                    : ""}
-                </Text>
-                <Text style={styles.weatherStateStyle}>
-                  {currentData?.condition?.text}
-                </Text>
-                <Text style={styles.date}>
-                  {dayjs(location?.localtime).format("D MMM YYYY / hh:mm a")}
-                </Text>
+      <ScrollView style={styles.flexOne} showsVerticalScrollIndicator={false}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: paperTheme.colors.background },
+          ]}
+        >
+          <Card style={styles.verticalMargin}>
+            <Card.Content>
+              <View style={styles.flexRow}>
+                <View style={styles.mainCardContainer}>
+                  <Text style={styles.city} numberOfLines={1}>
+                    {location?.name}
+                  </Text>
+                  <Text style={styles.weatherTempStyle}>
+                    {currentData?.temp_c
+                      ? `${Math.floor(currentData.temp_c)}°C`
+                      : ""}
+                  </Text>
+                  <Text style={styles.weatherStateStyle}>
+                    {currentData?.condition?.text}
+                  </Text>
+                  <Text style={styles.date}>
+                    {dayjs(location?.localtime).format("D MMM YYYY / hh:mm a")}
+                  </Text>
+                </View>
+                <Image
+                  source={{ uri: "https:" + currentData?.condition?.icon }}
+                  style={styles.weatherIconStyle}
+                />
               </View>
-              <Image
-                source={{ uri: "https:" + currentData?.condition?.icon }}
-                style={styles.weatherIconStyle}
+            </Card.Content>
+          </Card>
+
+          <Card style={[styles.verticalMargin, styles.padding10]}>
+            <View style={[styles.flexRow, styles.flexJustify]}>
+              <WeatherStatItem
+                iconSource="weather-windy"
+                statValue={
+                  currentData?.wind_kph
+                    ? `${Math.floor(currentData?.wind_kph)} kph`
+                    : ""
+                }
+                statInfo="Wind"
+              />
+              <WeatherStatItem
+                iconSource="water-percent"
+                statValue={`${currentData?.humidity} %`}
+                statInfo="Humidity"
+              />
+              <WeatherStatItem
+                iconSource="weather-rainy"
+                statValue={`${chanceOfRain} %`}
+                statInfo="Rain"
+              />
+              <WeatherStatItem
+                iconSource="eye"
+                statValue={`${currentData?.vis_km} km`}
+                statInfo="Visibility"
               />
             </View>
-          </Card.Content>
-        </Card>
+          </Card>
 
-        <Card style={[styles.verticalMargin, styles.padding10]}>
-          <View style={[styles.flexRow, styles.flexJustify]}>
-            <WeatherStatItem
-              iconSource="weather-windy"
-              statValue={
-                currentData?.wind_kph
-                  ? `${Math.floor(currentData?.wind_kph)} kph`
-                  : ""
-              }
-              statInfo="Wind"
-            />
-            <WeatherStatItem
-              iconSource="water-percent"
-              statValue={`${currentData?.humidity} %`}
-              statInfo="Humidity"
-            />
-            <WeatherStatItem
-              iconSource="weather-rainy"
-              statValue={`${chanceOfRain} %`}
-              statInfo="Rain"
-            />
-            <WeatherStatItem
-              iconSource="eye"
-              statValue={`${currentData?.vis_km} km`}
-              statInfo="Visibility"
-            />
+          <View style={styles.tabBar}>
+            <Button
+              mode={selectedTab === "today" ? "contained" : "outlined"}
+              onPress={() => setSelectedTab("today")}
+              style={styles.tabButton}
+            >
+              Today
+            </Button>
+            <Button
+              mode={selectedTab === "tomorrow" ? "contained" : "outlined"}
+              onPress={() => setSelectedTab("tomorrow")}
+              style={styles.tabButton}
+            >
+              Tomorrow
+            </Button>
+            <Button
+              mode={selectedTab === "forecast" ? "contained" : "outlined"}
+              onPress={() => setSelectedTab("forecast")}
+              style={styles.tabButton}
+            >
+              {forecastData && forecastData.length > 1
+                ? dayjs(forecastData[2]?.date).format("D MMM")
+                : ""}
+            </Button>
           </View>
-        </Card>
 
-        <View style={styles.tabBar}>
-          <Button
-            mode={selectedTab === "today" ? "contained" : "outlined"}
-            onPress={() => setSelectedTab("today")}
-            style={styles.tabButton}
-          >
-            Today
-          </Button>
-          <Button
-            mode={selectedTab === "tomorrow" ? "contained" : "outlined"}
-            onPress={() => setSelectedTab("tomorrow")}
-            style={styles.tabButton}
-          >
-            Tomorrow
-          </Button>
-          <Button
-            mode={selectedTab === "forecast" ? "contained" : "outlined"}
-            onPress={() => setSelectedTab("forecast")}
-            style={styles.tabButton}
-          >
-            {forecastData && forecastData.length > 1
-              ? dayjs(forecastData[2]?.date).format("D MMM")
-              : ""}
-          </Button>
-        </View>
-
-        <View style={styles.verticalMargin}>
-          {/* FlatList to Display Data */}
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={
-              selectedTab === "today"
-                ? currentData
-                  ? forecastData?.[0]?.hour.map((hour) => ({
+          <View style={styles.verticalMargin}>
+            {/* FlatList to Display Data */}
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={
+                selectedTab === "today"
+                  ? currentData
+                    ? forecastData?.[0]?.hour.map((hour) => ({
+                        id: hour.time,
+                        time: hour.time.split(" ")[1],
+                        temperature: `${Math.floor(hour.temp_c)}°C`,
+                        condition: hour.condition.text,
+                        icon: "https:" + hour.condition.icon,
+                      }))
+                    : []
+                  : selectedTab === "tomorrow"
+                  ? forecastData?.[1]?.hour.map((hour) => ({
                       id: hour.time,
                       time: hour.time.split(" ")[1],
                       temperature: `${Math.floor(hour.temp_c)}°C`,
                       condition: hour.condition.text,
                       icon: "https:" + hour.condition.icon,
                     }))
-                  : []
-                : selectedTab === "tomorrow"
-                ? forecastData?.[1]?.hour.map((hour) => ({
-                    id: hour.time,
-                    time: hour.time.split(" ")[1],
-                    temperature: `${Math.floor(hour.temp_c)}°C`,
-                    condition: hour.condition.text,
-                    icon: "https:" + hour.condition.icon,
-                  }))
-                : forecastData?.[2]?.hour.map((hour) => ({
-                    id: hour.time,
-                    time: hour.time.split(" ")[1],
-                    temperature: `${Math.floor(hour.temp_c)}°C`,
-                    condition: hour.condition.text,
-                    icon: "https:" + hour.condition.icon,
-                  }))
-            }
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <WeatherCard
-                time={item.time}
-                temperature={item.temperature}
-                condition={item.condition}
-                icon={item.icon}
-              />
-            )}
-          />
+                  : forecastData?.[2]?.hour.map((hour) => ({
+                      id: hour.time,
+                      time: hour.time.split(" ")[1],
+                      temperature: `${Math.floor(hour.temp_c)}°C`,
+                      condition: hour.condition.text,
+                      icon: "https:" + hour.condition.icon,
+                    }))
+              }
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <WeatherCard
+                  time={item.time}
+                  temperature={item.temperature}
+                  condition={item.condition}
+                  icon={item.icon}
+                />
+              )}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -259,7 +268,7 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
-  safeArea: {
+  flexOne: {
     flex: 1,
   },
   image: {
