@@ -1,12 +1,5 @@
-import {
-  Image,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  FlatList,
-  Dimensions,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, View, SafeAreaView, FlatList } from "react-native";
+import React, { useState } from "react";
 import { useTheme } from "../../ThemeContext";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import {
@@ -34,13 +27,7 @@ const WeatherStatItem: React.FC<WeatherStatItemType> = ({
   statValue,
   statInfo,
 }) => (
-  <View
-    style={{
-      justifyContent: "center",
-      alignItems: "center",
-      width: width * 0.2,
-    }}
-  >
+  <View style={styles.weatherStateContainer}>
     <Icon size={24} source={iconSource} />
     <Text style={styles.weatherStateStyle}>{statValue}</Text>
     <Text style={styles.date}>{statInfo}</Text>
@@ -57,6 +44,10 @@ const Home = () => {
   const location = data?.location;
   const currentData = data?.current;
   const forecastData = data?.forecast.forecastday;
+  const chanceOfRain =
+    forecastData && forecastData.length > 0
+      ? forecastData[0]?.day?.daily_chance_of_rain
+      : "";
 
   if (status === "idle") {
     return (
@@ -180,7 +171,7 @@ const Home = () => {
             />
             <WeatherStatItem
               iconSource="weather-rainy"
-              statValue={`${currentData?.precip_mm} %`}
+              statValue={`${chanceOfRain} %`}
               statInfo="Rain"
             />
             <WeatherStatItem
@@ -350,5 +341,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  weatherStateContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.2,
   },
 });
