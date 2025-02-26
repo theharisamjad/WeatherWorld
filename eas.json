@@ -17,6 +17,18 @@
                 "API_KEY": "@WEATHER_API_KEY"
             }
         },
+        "preview": {
+            "autoIncrement": true,
+            "android": {
+                "buildType": "apk"
+            },
+            "ios": {
+                "simulator": true
+            },
+            "env": {
+                "API_KEY": "@WEATHER_API_KEY"
+            }
+        },
         "production": {
             "autoIncrement": true,
             "android": {
