@@ -6,7 +6,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
+    "ios": "expo start --ios"
   },
   "dependencies": {
     "@react-navigation/native": "^7.0.14",
