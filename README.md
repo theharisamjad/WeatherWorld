@@ -71,11 +71,8 @@ Contributions are welcome! If you'd like to contribute, please follow these step
 3. React Native Paper for the beautiful UI components
 4. React Native Size Matters for handling responsiveness.
 5. WeatherAPI.com for providing the weather data.
-
-6. <!-- LICENSE -->
+ <!-- LICENSE -->
 # License
-
 Distributed under the `MIT` License. See [LICENSE](https://github.com/haris-0525/WeatherWorld/blob/main/LICENSE) for more information.
-
 
 Made with ❤️ by Haris Amjad
