@@ -100,7 +100,7 @@ export interface WeatherData {
   };
 }
 
-interface WeatherState {
+export interface WeatherState {
   data: WeatherData | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
@@ -118,25 +118,33 @@ const apiKey = Constants.expoConfig?.extra?.weatherApiKey;
 // Async thunk to fetch weather data
 export const fetchWeatherData = createAsyncThunk(
   "weather/fetchWeatherData",
-  async (city: string) => {
+  async (city: string, { rejectWithValue }) => {
     if (!apiKey) {
-      console.error(
-        "API key is missing, please configure your key on weatherapi.com and add in env file!"
+      return rejectWithValue(
+        "API key is missing. Please configure your key on weatherapi.com and add it to your environment file."
       );
-      return;
     }
 
-    const response = await axios.get(
-      `${baseUrl}${endPoints.forecastEndpoint}`,
-      {
+    try {
+      const response = await axios.get(`${baseUrl}/v1/forecast.json`, {
         params: {
           key: apiKey,
-          q: city, // Replace with the desired location
-          days: 3, // Fetch forecast for 3 days
+          q: city,
+          days: 3,
+          aqi: "no",
+          alerts: "no",
         },
+      });
+      return response.data as WeatherData;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.error?.message ||
+            "Failed to fetch weather data. Please try again."
+        );
       }
-    );
-    return response.data as WeatherData;
+      return rejectWithValue("An unexpected error occurred");
+    }
   }
 );
 
@@ -158,7 +166,7 @@ const weatherSlice = createSlice({
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data = action.payload;
+        state.data = action.payload || null;
       })
       .addCase(fetchWeatherData.rejected, (state, action) => {
         state.status = "failed";

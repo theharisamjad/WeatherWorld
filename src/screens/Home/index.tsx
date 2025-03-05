@@ -90,6 +90,7 @@ const Home = () => {
         ]}
       >
         <ActivityIndicator
+          testID="activity-indicator"
           animating={true}
           color={paperTheme.colors.primary}
           size={"large"}
