@@ -33,7 +33,7 @@ A simple Weather app built with **React Native**, **Expo**, and **Redux** for st
 
 ### Installation
 1. **Clone the repository**:
-   `git clone https://github.com/haris-0525/WeatherWorld.git`
+   `git clone https://github.com/theharisamjad/WeatherWorld.git`
    `cd WeatherWorld`
 2. Install dependencies:
  `yarn install`
@@ -55,7 +55,7 @@ Add your WeatherAPI key:
 Contributions are welcome! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository:
- `git clone https://github.com/haris-0525/WeatherWorld.git`
+ `git clone https://github.com/theharisamjad/WeatherWorld.git`
  `cd WeatherWorld`
 3. Create a new branch:
 `git checkout -b feature/your-feature`
